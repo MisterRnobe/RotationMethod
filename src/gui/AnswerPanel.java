@@ -32,6 +32,12 @@ public class AnswerPanel extends JPanel {
     }
     public void setAnswers(double[] d)
     {
+        if (!hasSolutions(d))
+        {
+            setNoSolutions();
+            return;
+        }
+
         for (int i = 0; i < answers.length; i++) {
             answers[i].setText("");
             answers[i].setVisible(false);
@@ -47,6 +53,23 @@ public class AnswerPanel extends JPanel {
         Dimension dim = super.getPreferredSize();
         dim.width += 20;
         return dim;
+    }
+    private void setNoSolutions()
+    {
+        for (int i = 1; i < answers.length; i++) {
+            answers[i].setText("");
+            answers[i].setVisible(false);
+        }
+        answers[0].setVisible(true);
+        answers[0].setText("Нет решений");
+    }
+    public static boolean hasSolutions(double[] d)
+    {
+        for (int i = 0; i < d.length; i++) {
+            if (Double.isNaN(d[i]) || Double.isInfinite(d[i]))
+                return false;
+        }
+        return true;
     }
 
 }
